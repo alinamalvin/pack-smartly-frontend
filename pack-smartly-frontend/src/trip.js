@@ -1,4 +1,4 @@
-class Weather {
+class Trip {
     constructor(name){
         this.name = name;
     }
