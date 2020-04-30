@@ -4,6 +4,11 @@ class AppContainer {
     url = "http://localhost:3000"
     packingList= {}
 
+    bindEventListeners() {
+        const btn = document.getElementById('createPackingList')
+        debugger
+    }
+
     getItems(){
         // make a fetch request to /weathers
         console.log('something')

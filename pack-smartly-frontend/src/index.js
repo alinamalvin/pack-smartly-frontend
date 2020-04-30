@@ -1,2 +1,3 @@
-const app = new AppContainer
+const app = new AppContainer;
 app.getItems()
+app.bindEventListeners()
