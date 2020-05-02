@@ -1,7 +1,7 @@
 class Item {
-    constructor(name, trip_id){
+    constructor(name, trip){
         this.name = name;
-        this.trip_id = trip_id;
+        this.trip = trip;
         AppContainer.items.push(this)
     }
 }
