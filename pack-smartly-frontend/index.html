@@ -7,12 +7,16 @@
     <title>Pack Smartly</title>
 </head>
 <body>
+    <p><label for="Trip">Choose Trip Style:</label></p>
     <select name="Trip" id="chosenTrip">
-    <option value="hotCamping">Camping/Summer</option>
-    <option value="coldCamping">Camping/Winter</option>
+    <option value="camping">Camping</option>
+    <option value="ski">Ski</option>
+    <option value="cultural">Cultural</option>
     <option value="beach">Beach</option></select>
-    <button id="createPackingList">View a Packing List</button>
+    <p><button id="createPackingList">View a Packing List</button></p>
     <div id="packingList"></div>
+
+    <script src="src/packingList.js"></script>
     <script src="src/item.js" ></script>
     <script src="src/appContainer.js" ></script>
     <script src="src/index.js"></script>
