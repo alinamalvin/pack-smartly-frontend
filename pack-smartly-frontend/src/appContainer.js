@@ -2,31 +2,39 @@ class AppContainer {
     static items = []
     trips = []
     url = "http://localhost:3000"
-    packingList= {}
+    static packingList= {}
 
     bindEventListeners() {
         const btn = document.getElementById('createPackingList')
-        btn.addEventListener('click', this.getCustomizedItems.bind(this))
+        btn.addEventListener('click', this.getPackingList.bind(this))
+    }
+
+    getPackingList() {
+        this.getCustomizedItems()
     }
 
     getCustomizedItems(){ 
         const chosenTrip= document.getElementById('chosenTrip').value
         let customizedItems=AppContainer.items.filter(item => item.trip.name == chosenTrip)
-        let packing = new PackingList(customizedItems)
-        debugger
         //initiate PackingList instance with this items
+        new PackingList(customizedItems)
+        // insert data into DOM
+        const packingListDiv = document.getElementById('packingList')
+        AppContainer.packingList.items.forEach(packingList => {
+             const itemDiv = document.createElement('div')
+             itemDiv.innerText = packingList.name
+             packingListDiv.appendChild(itemDiv)
+        })
     }
 
 
-     renderCustomizedItems(){
-     } 
-// do I need getItems if I don`t need them to show? Might need to remove everything below
+     // do I need getItems if I don`t need them to show? Might need to remove everything below
     getItems(){
-    // make a fetch request to /items
+        // make a fetch request to /items
         console.log('something')
         fetch(this.url + '/items')
         .then(resp => resp.json())
-    // populate the items properties with the returned data
+        // populate the items properties with the returned data
          .then(data => {
         console.log(data)
         data.forEach(item => {
@@ -38,7 +46,8 @@ class AppContainer {
     .catch(err => alert(err))
     }
 
-renderItems() {
+    renderItems() {
+    // can I use 'chosen trip" id instead of all the trips id? or use .value at the end of getElementByID?
     // create DOM nodes and insert data into them to render in the DOM
     const campingSelect = document.getElementById('camping')
     const beachSelect = document.getElementById('beach')
