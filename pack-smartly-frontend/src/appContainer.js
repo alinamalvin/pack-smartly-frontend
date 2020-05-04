@@ -5,11 +5,40 @@ class AppContainer {
     static packingList= {}
 
     bindEventListeners() {
+        // can join two codes into one later
         const btn = document.getElementById('createPackingList')
-        btn.addEventListener('click', this.getPackingList.bind(this))
+        // clicking the button initiates an empty funcition that calls getPackingList method on the eventListener: 
+        btn.addEventListener('click', () => this.getPackingList(this))
+
+        const newItemForm = document.getElementById('newItem')
+        newItemForm.addEventListener('submit', () => this.createItem(event))
+    }
+
+    createItem(event) {
+        event.preventDefault()
+        const form = document.getElementById('newItem')
+        // const itemSelect = document.getElementById('tripSelect').selectIndex
+        debugger
+        // this => instance of app container if we bind the app instance execution context when we pass in this function as an argument to the event listener
+        console.log(this)
+        fetch(`${this.url}/items`, {
+            method: 'POST',
+            headers: {
+                'Content-type': 'application/json',
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify({
+                name: "blanket",
+                trip: "Camping"
+            })
+        })
+        .then(resp => resp.json())
+        .then(data => console.log(data))
+        .catch(err => console.log(err))
     }
 
     getPackingList() {
+        // refresh PackingList before each time the user click "Submit" button:
         document.getElementById('packingList').innerHTML = "";
         this.getCustomizedItems()
     }
