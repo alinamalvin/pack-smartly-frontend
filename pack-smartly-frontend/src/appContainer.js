@@ -1,6 +1,6 @@
 class AppContainer {
     static items = []
-    trips = []
+    static trips = []
     url = "http://localhost:3000"
     static packingList= {}
 
@@ -14,36 +14,47 @@ class AppContainer {
     }
 
     getCustomizedItems(){ 
-        const chosenTrip= document.getElementById('chosenTrip').value
-        let customizedItems=AppContainer.items.filter(item => item.trip.name == chosenTrip)
+        const chosenTrip= document.getElementById('chosenTrip').value;
+        const customizedItems=AppContainer.items.filter(item => item.trip.name == chosenTrip);
         //initiate PackingList instance with this items
-        new PackingList(customizedItems)
+        new PackingList(customizedItems);
         // insert data into DOM
-        const packingListDiv = document.getElementById('packingList')
-        AppContainer.packingList.items.forEach(packingList => {
-             const itemDiv = document.createElement('div')
-             itemDiv.innerText = packingList.name
-             packingListDiv.appendChild(itemDiv)
+        const packingListDiv = document.getElementById('packingList');
+        AppContainer.packingList.items.forEach(item => {
+            const itemDiv = document.createElement('div');
+            itemDiv.innerText = item.name;
+            packingListDiv.appendChild(itemDiv);
         })
+          // customizedItems.forEach(item =>  {
+            fetch(`http://localhost:3000/items/${customizedItems[0].id}`, {
+                 method: 'DELETE',
+                 headers: {
+                 'Content-type': 'application/json'
+                 }
+            })
+            .then(resp => resp.json())
+            .then(data => console.log(data))
+         //})
     }
 
-
-     // do I need getItems if I don`t need them to show? Might need to remove everything below
     getItems(){
         // make a fetch request to /items
-        console.log('something')
         fetch(this.url + '/items')
         .then(resp => resp.json())
         // populate the items properties with the returned data
-         .then(data => {
-        console.log(data)
-        data.forEach(item => {
-            new Item(item.name, item.trip)
+        .then(data => {
+            console.log(data)
+            data.forEach(item => {
+                new Item(item.id, item.name, item.trip)
+                // avoid initiate duplicate trips:
+                if (!AppContainer.trips.map(trip => trip.name).includes(item.trip.name)) {
+                    new Trip(item.trip.name)
+                } 
+            });
+            // call renderItems
+            this.renderItems();
         })
-        // call renderItems
-        this.renderItems()
-        })
-    .catch(err => alert(err))
+        .catch(err => alert(err))
     }
 
     renderItems() {
