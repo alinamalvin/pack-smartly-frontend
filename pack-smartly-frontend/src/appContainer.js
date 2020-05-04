@@ -10,13 +10,14 @@ class AppContainer {
     }
 
     getPackingList() {
+        document.getElementById('packingList').innerHTML = "";
         this.getCustomizedItems()
     }
 
-    getCustomizedItems(){ 
+    getCustomizedItems() { 
         const chosenTrip= document.getElementById('chosenTrip').value;
         const customizedItems=AppContainer.items.filter(item => item.trip.name == chosenTrip);
-        //initiate PackingList instance with this items
+        // initiate PackingList instance with this items
         new PackingList(customizedItems);
         // insert data into DOM
         const packingListDiv = document.getElementById('packingList');
@@ -24,17 +25,7 @@ class AppContainer {
             const itemDiv = document.createElement('div');
             itemDiv.innerText = item.name;
             packingListDiv.appendChild(itemDiv);
-        })
-          // customizedItems.forEach(item =>  {
-            fetch(`http://localhost:3000/items/${customizedItems[0].id}`, {
-                 method: 'DELETE',
-                 headers: {
-                 'Content-type': 'application/json'
-                 }
-            })
-            .then(resp => resp.json())
-            .then(data => console.log(data))
-         //})
+        })   
     }
 
     getItems(){
@@ -46,10 +37,6 @@ class AppContainer {
             console.log(data)
             data.forEach(item => {
                 new Item(item.id, item.name, item.trip)
-                // avoid initiate duplicate trips:
-                if (!AppContainer.trips.map(trip => trip.name).includes(item.trip.name)) {
-                    new Trip(item.trip.name)
-                } 
             });
             // call renderItems
             this.renderItems();
@@ -87,8 +74,5 @@ class AppContainer {
     })
 } 
 
-}
-function newFunction() {
-    return []
 }
 
