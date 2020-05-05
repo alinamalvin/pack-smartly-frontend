@@ -16,9 +16,8 @@ class AppContainer {
 
     createItem(event) {
         event.preventDefault()
-        const form = document.getElementById('newItem')
-        // const itemSelect = document.getElementById('tripSelect').selectIndex
-        debugger
+        // maybe use object destructuring to be more DRY
+        const data = event.target; 
         // this => instance of app container if we bind the app instance execution context when we pass in this function as an argument to the event listener
         console.log(this)
         fetch(`${this.url}/items`, {
@@ -28,8 +27,8 @@ class AppContainer {
                 'Accept': 'application/json'
             },
             body: JSON.stringify({
-                name: "blanket",
-                trip: "Camping"
+                name: data.item.value,
+                trip: data.children[2].value // refactor this to be more abstract
             })
         })
         .then(resp => resp.json())
