@@ -75,32 +75,14 @@ class AppContainer {
     renderItems() {
     // can I use 'chosen trip" id instead of all the trips id? or use .value at the end of getElementByID?
     // create DOM nodes and insert data into them to render in the DOM
-    const campingSelect = document.getElementById('camping')
-    const beachSelect = document.getElementById('beach')
-    const skiSelect = document.getElementById('ski')
-    const culturalSelect = document.getElementById('cultural')
-    AppContainer.items.forEach(item => {
-        const option = document.createElement('option')
-        option.innerText = item.name 
+        const tripDiv = document.getElementById('chosenTrip')
+        AppContainer.items.forEach(item => {
+            const itemDiv = document.createElement('div');
+            itemDiv.innerText = item.name;
+            tripDiv.appendChild(itemDiv)
         // where  we append it will be conditional based on what trip it belongs to
-        switch(item.trip.name) {
-            case 'camping':
-              camping.appendChild(option)
-              break;
-            case 'ski':
-                ski.appendChild(option)
-            break;
-            case 'cultural':
-                cultural.appendChild(option)
-            break;
-            case 'beach':
-              beach.appendChild(option)
-            break;
-            default:
-             // code block
-          }
-    })
+        })
+    }
 } 
 
-}
 
