@@ -12,6 +12,9 @@ class AppContainer {
 
         const newItemForm = document.getElementById('newItem')
         newItemForm.addEventListener('submit', () => this.createItem(event))
+
+        const removeButton = document.getElementById('button')
+        removeButton.addEventListener("click", () => this.deleteItem);
     }
 
     createItem(event) {
@@ -36,11 +39,27 @@ class AppContainer {
         .catch(err => console.log(err))
     }
 
+    // the method needs to be revisited
+    deleteItems() {
+        customizedItems.forEach(item =>  {
+        fetch(`http://localhost:3000/items/${customizedItems.name}`, {
+            method: 'DELETE',
+            headers: {
+            'Content-type': 'application/json'
+            }
+            })
+        })
+        .then(resp => resp.json())
+        .then(data => console.log('hello'))
+    }
+
+
     getPackingList() {
         // refresh PackingList before each time the user click "Submit" button:
         document.getElementById('packingList').innerHTML = "";
-        this.getCustomizedItems()
+        this.getCustomizedItems();
     }
+
 
     getCustomizedItems() { 
         const chosenTrip= document.getElementById('chosenTrip').value;
@@ -52,8 +71,12 @@ class AppContainer {
         AppContainer.packingList.items.forEach(item => {
             const itemDiv = document.createElement('div');
             itemDiv.innerText = item.name;
+            const removeButton = document.createElement('button');
+            removeButton.innerText= "Delete"
+            itemDiv.appendChild(removeButton)
             packingListDiv.appendChild(itemDiv);
         })   
+       
     }
 
     getItems(){
