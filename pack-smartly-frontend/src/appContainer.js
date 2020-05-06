@@ -14,9 +14,12 @@ class AppContainer {
         newItemForm.addEventListener('submit', () => this.createItem(event))
 
         // buttton doesn`t work-prob because each button must have unique id, but now it belongs to entire division
-        const removeButton = document.getElementById('button')
-        removeButton.addEventListener("click", () => this.deleteItem);
-    }
+        // const removeButton = document.getElementsByClassName('button')
+        // debugger
+        // removeButton.forEach(button => {
+           //  button.addEventListener("click", () => this.deleteItem);
+        // })
+     }
 
     createItem(event) {
         event.preventDefault()
@@ -32,7 +35,7 @@ class AppContainer {
             },
             body: JSON.stringify({
                 name: data.item.value,
-                trip: data.children[2].value // refactor this to be more abstract
+                trip: data.tripSelect.value  // data.children[2].value // refactor this to be more abstract
             })
         })
         .then(resp => resp.json())
@@ -40,7 +43,7 @@ class AppContainer {
         .then(data => {
             const { id, name, trip } = data; 
             new Item(id, name, trip)
-            this.packingList()
+            this.getPackingList()
         })
         .catch(err => console.log(err))
     }
@@ -81,7 +84,8 @@ class AppContainer {
             removeButton.innerText= "Delete"
             itemDiv.appendChild(removeButton)
             packingListDiv.appendChild(itemDiv);
-        })   
+        })  
+        // create buttoon and add a class to each button 
        
     }
 
