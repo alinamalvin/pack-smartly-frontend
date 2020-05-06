@@ -13,6 +13,7 @@ class AppContainer {
         const newItemForm = document.getElementById('newItem')
         newItemForm.addEventListener('submit', () => this.createItem(event))
 
+        // buttton doesn`t work-prob because each button must have unique id, but now it belongs to entire division
         const removeButton = document.getElementById('button')
         removeButton.addEventListener("click", () => this.deleteItem);
     }
@@ -35,7 +36,12 @@ class AppContainer {
             })
         })
         .then(resp => resp.json())
-        .then(data => console.log(data))
+        // fix the problem - the new item doesn`t have id and trip, so it is not pushing to Packing List
+        .then(data => {
+            const { id, name, trip } = data; 
+            new Item(id, name, trip)
+            this.packingList()
+        })
         .catch(err => console.log(err))
     }
 
