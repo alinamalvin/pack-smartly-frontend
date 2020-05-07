@@ -12,14 +12,7 @@ class AppContainer {
 
         const newItemForm = document.getElementById('newItem')
         newItemForm.addEventListener('submit', () => this.createItem(event))
-
-        // buttton doesn`t work-prob because each button must have unique id, but now it belongs to entire division
-        // const removeButton = document.getElementsByClassName('button')
-        // debugger
-        // removeButton.forEach(button => {
-           //  button.addEventListener("click", () => this.deleteItem);
-        // })
-     }
+    }
 
     createItem(event) {
         event.preventDefault()
@@ -48,27 +41,11 @@ class AppContainer {
         .catch(err => console.log(err))
     }
 
-    // the method needs to be revisited
-    deleteItems() {
-        customizedItems.forEach(item =>  {
-        fetch(`http://localhost:3000/items/${customizedItems.name}`, {
-            method: 'DELETE',
-            headers: {
-            'Content-type': 'application/json'
-            }
-            })
-        })
-        .then(resp => resp.json())
-        .then(data => console.log('hello'))
-    }
-
-
     getPackingList() {
         // refresh PackingList before each time the user click "Submit" button:
         document.getElementById('packingList').innerHTML = "";
         this.getCustomizedItems();
     }
-
 
     getCustomizedItems() { 
         const chosenTrip= document.getElementById('chosenTrip').value;
@@ -82,12 +59,34 @@ class AppContainer {
             itemDiv.innerText = item.name;
             const removeButton = document.createElement('button');
             removeButton.innerText= "Delete"
+            removeButton.id = item.name 
+            removeButton.classList.add('removeButtonClass')
             itemDiv.appendChild(removeButton)
             packingListDiv.appendChild(itemDiv);
         })  
-        // create buttoon and add a class to each button 
-       
+        // create button and add a class to each button 
+        // const deleteButtonsClass = document.getElementsByClassName('removeButtonClass')
+        const deleteButtonName = document.querySelectorAll('button')
+        deleteButtonName.forEach(button => {
+            deleteButtonName.addEventListener('click', () => console.log('hello'));
+        })
+        debugger
     }
+
+        // the method needs to be revisited
+        deleteItem() {
+            customizedItems.forEach(item =>  {
+            fetch(`http://localhost:3000/items/${customizedItems.name}`, {
+                method: 'DELETE',
+                headers: {
+                'Content-type': 'application/json'
+                }
+                })
+            })
+            .then(resp => resp.json())
+            .then(data => console.log(data))
+        }
+
 
     getItems(){
         // make a fetch request to /items
