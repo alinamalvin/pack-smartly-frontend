@@ -59,32 +59,31 @@ class AppContainer {
             itemDiv.innerText = item.name;
             const removeButton = document.createElement('button');
             removeButton.innerText= "Delete"
-            removeButton.id = item.name 
+            removeButton.id = item.name
+            removeButton.setAttribute("data-id", item.id)
             removeButton.classList.add('removeButtonClass')
             itemDiv.appendChild(removeButton)
             packingListDiv.appendChild(itemDiv);
         })  
-        // create button and add a class to each button 
         // const deleteButtonsClass = document.getElementsByClassName('removeButtonClass')
         const deleteButtonName = document.querySelectorAll('button')
         deleteButtonName.forEach(button => {
-            deleteButtonName.addEventListener('click', () => console.log('hello'));
+            button.addEventListener('click', () =>  this.deleteItem(event));
         })
-        debugger
     }
 
-        // the method needs to be revisited
-        deleteItem() {
-            customizedItems.forEach(item =>  {
-            fetch(`http://localhost:3000/items/${customizedItems.name}`, {
+        deleteItem(event) {
+            event.preventDefault()
+            const data = event.target.dataset.id
+            fetch(`http://localhost:3000/items/${data}`, {
                 method: 'DELETE',
                 headers: {
                 'Content-type': 'application/json'
                 }
                 })
-            })
             .then(resp => resp.json())
             .then(data => console.log(data))
+            .catch(err => console.log(err))
         }
 
 
