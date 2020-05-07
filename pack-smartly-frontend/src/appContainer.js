@@ -16,7 +16,6 @@ class AppContainer {
 
     createItem(event) {
         event.preventDefault()
-        // maybe use object destructuring to be more DRY
         const data = event.target; 
         // this => instance of app container if we bind the app instance execution context when we pass in this function as an argument to the event listener
         console.log(this)
@@ -28,11 +27,10 @@ class AppContainer {
             },
             body: JSON.stringify({
                 name: data.item.value,
-                trip: data.tripSelect.value  // data.children[2].value // refactor this to be more abstract
+                trip: data.tripSelect.value  
             })
         })
         .then(resp => resp.json())
-        // fix the problem - the new item doesn`t have id and trip, so it is not pushing to Packing List
         .then(data => {
             const { id, name, trip } = data; 
             new Item(id, name, trip)
@@ -68,24 +66,24 @@ class AppContainer {
         // const deleteButtonsClass = document.getElementsByClassName('removeButtonClass')
         const deleteButtonName = document.querySelectorAll('button')
         deleteButtonName.forEach(button => {
-            button.addEventListener('click', () =>  this.deleteItem(event));
+            button.addEventListener('click', () => this.deleteItem(event));
         })
     }
 
-        deleteItem(event) {
-            event.preventDefault()
-            const data = event.target.dataset.id
-            fetch(`http://localhost:3000/items/${data}`, {
-                method: 'DELETE',
-                headers: {
-                'Content-type': 'application/json'
-                }
-                })
-            .then(resp => resp.json())
-            .then(data => console.log(data))
-            .catch(err => console.log(err))
-        }
-
+    deleteItem(event) {
+        event.preventDefault()
+        const data = event.target.dataset.id
+        fetch(`http://localhost:3000/items/${data}`, {
+            method: 'DELETE',
+            headers: {
+            'Content-type': 'application/json'
+            }
+        })
+        .then(resp => resp.json())
+        .then(data => console.log(data))
+        .catch(err => console.log(err))
+        event.target.parentElement.remove()
+    }
 
     getItems(){
         // make a fetch request to /items
