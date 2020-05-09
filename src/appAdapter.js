@@ -1,13 +1,11 @@
 class AppAdapter {
-    static url = "http://localhost:3000"
+    static url = "http://localhost:3000/items"
 
     // CREATE ITEM
     static createItem(event) {
         event.preventDefault()
         const data = event.target; 
-        // this => instance of app container if we bind the app instance execution context when we pass in this function as an argument to the event listener
-        console.log(this)
-        fetch(`${this.url}/items`, {
+        fetch(`${this.url}`, {
             method: 'POST',
             headers: {
                 'Content-type': 'application/json',
@@ -31,7 +29,7 @@ class AppAdapter {
     static deleteItem(event) {
         event.preventDefault()
         const data = event.target.dataset.id
-        fetch(`http://localhost:3000/items/${data}`, {
+        fetch(`${this.url}/${data}`, {
             method: 'DELETE',
             headers: {
             'Content-type': 'application/json'
@@ -45,7 +43,7 @@ class AppAdapter {
     // READ ITEMS
     static getItems(){
         // make a fetch request to /items
-        fetch('http://localhost:3000/items')
+        fetch(`${this.url}`)
         .then(resp => resp.json())
         // populate the items properties with the returned data
         .then(data => {
