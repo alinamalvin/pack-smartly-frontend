@@ -63,10 +63,9 @@ class AppContainer {
             itemDiv.appendChild(removeButton)
             packingListDiv.appendChild(itemDiv);
         })  
-        // const deleteButtonsClass = document.getElementsByClassName('removeButtonClass')
-        const deleteButtonName = document.querySelectorAll('button')
-        deleteButtonName.forEach(button => {
-            button.addEventListener('click', () => this.deleteItem(event));
+        const deleteButtonName = Array.from(document.getElementsByClassName('removeButtonClass'))
+        deleteButtonName.forEach(deleteButtonName => {
+            deleteButtonName.addEventListener('click', () => this.deleteItem(event) & event.target.parentElement.remove())
         })
     }
 
@@ -82,12 +81,11 @@ class AppContainer {
         .then(resp => resp.json())
         .then(data => console.log(data))
         .catch(err => console.log(err))
-        event.target.parentElement.remove()
     }
 
     getItems(){
         // make a fetch request to /items
-        fetch(this.url + '/items')
+        fetch('http://localhost:3000/items')
         .then(resp => resp.json())
         // populate the items properties with the returned data
         .then(data => {
@@ -102,14 +100,12 @@ class AppContainer {
     }
 
     renderItems() {
-    // can I use 'chosen trip" id instead of all the trips id? or use .value at the end of getElementByID?
     // create DOM nodes and insert data into them to render in the DOM
         const tripDiv = document.getElementById('chosenTrip')
         AppContainer.items.forEach(item => {
             const itemDiv = document.createElement('div');
             itemDiv.innerText = item.name;
             tripDiv.appendChild(itemDiv)
-        // where  we append it will be conditional based on what trip it belongs to
         })
     }
 } 
