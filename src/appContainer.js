@@ -4,48 +4,23 @@ class AppContainer {
     url = "http://localhost:3000"
     static packingList= {}
 
-    bindEventListeners() {
+    static bindEventListeners() {
         // can join two codes into one later
         const btn = document.getElementById('createPackingList')
         // clicking the button initiates an empty funcition that calls getPackingList method on the eventListener: 
         btn.addEventListener('click', () => this.getPackingList(this))
 
         const newItemForm = document.getElementById('newItem')
-        newItemForm.addEventListener('submit', () => this.createItem(event))
+        newItemForm.addEventListener('submit', () => AppAdapter.createItem(event))
     }
 
-    createItem(event) {
-        event.preventDefault()
-        const data = event.target; 
-        // this => instance of app container if we bind the app instance execution context when we pass in this function as an argument to the event listener
-        console.log(this)
-        fetch(`${this.url}/items`, {
-            method: 'POST',
-            headers: {
-                'Content-type': 'application/json',
-                'Accept': 'application/json'
-            },
-            body: JSON.stringify({
-                name: data.item.value,
-                trip: data.tripSelect.value  
-            })
-        })
-        .then(resp => resp.json())
-        .then(data => {
-            const { id, name, trip } = data; 
-            new Item(id, name, trip)
-            this.getPackingList()
-        })
-        .catch(err => console.log(err))
-    }
-
-    getPackingList() {
+    static getPackingList() {
         // refresh PackingList before each time the user click "Submit" button:
         document.getElementById('packingList').innerHTML = "";
         this.getCustomizedItems();
     }
 
-    getCustomizedItems() { 
+    static getCustomizedItems() { 
         const chosenTrip= document.getElementById('chosenTrip').value;
         const customizedItems=AppContainer.items.filter(item => item.trip.name == chosenTrip);
         // initiate PackingList instance with this items
@@ -65,41 +40,11 @@ class AppContainer {
         })  
         const deleteButtonName = Array.from(document.getElementsByClassName('removeButtonClass'))
         deleteButtonName.forEach(deleteButtonName => {
-            deleteButtonName.addEventListener('click', () => this.deleteItem(event) & event.target.parentElement.remove())
+            deleteButtonName.addEventListener('click', () => AppAdapter.deleteItem(event) & event.target.parentElement.remove())
         })
     }
 
-    deleteItem(event) {
-        event.preventDefault()
-        const data = event.target.dataset.id
-        fetch(`http://localhost:3000/items/${data}`, {
-            method: 'DELETE',
-            headers: {
-            'Content-type': 'application/json'
-            }
-        })
-        .then(resp => resp.json())
-        .then(data => console.log(data))
-        .catch(err => console.log(err))
-    }
-
-    getItems(){
-        // make a fetch request to /items
-        fetch('http://localhost:3000/items')
-        .then(resp => resp.json())
-        // populate the items properties with the returned data
-        .then(data => {
-            console.log(data)
-            data.forEach(item => {
-                new Item(item.id, item.name, item.trip)
-            });
-            // call renderItems
-            this.renderItems();
-        })
-        .catch(err => alert(err))
-    }
-
-    renderItems() {
+    static renderItems() {
     // create DOM nodes and insert data into them to render in the DOM
         const tripDiv = document.getElementById('chosenTrip')
         AppContainer.items.forEach(item => {

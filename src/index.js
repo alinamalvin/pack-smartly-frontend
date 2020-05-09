@@ -1,3 +1,3 @@
-const app = new AppContainer;
-app.getItems()
-app.bindEventListeners()
+// const app = new AppAdapter;
+AppAdapter.getItems()
+AppContainer.bindEventListeners()
