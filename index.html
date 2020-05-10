@@ -5,28 +5,37 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Pack Smartly</title>
+    <link rel="stylesheet" href="src/bootstrap.min.css">
 </head>
 <body>
-    <p><label for="Trip">Choose Trip Style:</label></p>
-    <select name="Trip" id="chosenTrip">
+    <div class="jumbotron">
+        <h1 class="display-3">Pack Smartly</h1>
+        <p class="lead">Find out hat you need for your trip in a second!</p>
+        <hr class="my-4">
+        <h4><p><label for="Trip">Choose Trip Style:</label></p></h4>
+    <select name="Trip" id="chosenTrip" class="btn btn-info dropdown-toggle" >
     <option value="camping">Camping</option>
     <option value="ski">Ski</option>
     <option value="cultural">Cultural</option>
     <option value="beach">Beach</option></select>
-    <p><button id="createPackingList">View a Packing List</button></p>
-    <div id="packingList"></button></div>
+    <hr class="my-2">
+    <p><button id="createPackingList" class="btn btn-primary">Generate a Packing List</button></p>
+    <div id="packingList" ></button></div>
+    <hr class="my-4">
     <p><form id="newItem"></p> 
-        <p><label for="newItem">Add New Item:</label></p>
-        <p><input type="text" name="item"></p>
-        <p><select name="tripSelect" id="tripSelect"> 
+        <h6></4><p><label for="newItem">Add New Item:</label></p></h6>
+        <p><input type="text" name="item" class="form-control form-control-sm" type="text" placeholder=".form-control-sm" id="inputSmall"></p>
+        <p><select name="tripSelect" id="tripSelect" class="btn btn-primary dropdown-toggle"> 
             <option value="camping">Camping</option>
             <option value="ski">Ski</option>
             <option value="cultural">Cultural</option>
             <option value="beach">Beach</option></select> 
         </select>
     </p>
-        <input type="submit">
+        <input type="submit" class="btn btn-warning disabled">
     </form>
+      </div>
+    
      
     <script src="src/appListeners.js"></script>
     <script src="src/appAdapter.js"></script>
